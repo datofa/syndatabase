@@ -406,29 +406,28 @@ public class FormTabelUtama extends javax.swing.JFrame {
     
     public void ubah(){
 
-        String sql= "update mahasiswa set no = ?, nama = ?, tabel1 = ?, tabel2 = ?, qinsert = ? where kode = '" 
+        String sql= "update QueryList set no = ?, nama = ?, qinsert = ? where kode = '" 
                 + QueryKode.getText()+"'";
         System.out.println(sql);
-        java.sql.PreparedStatement stmt = null;
         try {
+            java.sql.PreparedStatement stmt = null;
             stmt = koneksi.prepareStatement(sql);
-        } catch (SQLException ex) {}
+            try{
+                stmt.setString(1, QueryNumb.getText());
+                stmt.setString(2, QueryName.getText());
+                stmt.setString(3, QueryInsert.getText());
 
-        try{
-            stmt.setString(1, QueryNumb.getText());
-            stmt.setString(2, QueryName.getText());
-            stmt.setString(3, QueryTabel1.getText());
-            stmt.setString(4, QueryTabel2.getText());
-            stmt.setString(5, QueryInsert.getText());
-//            stmt.setString(6, QueryUpdate.getText());
-
-            stmt.executeUpdate();
-            JOptionPane.showMessageDialog(null,"Data Berhasil diubah!");
-            reset();
-            loadTable();
-        }catch(SQLException se){
+                stmt.executeUpdate();
+                JOptionPane.showMessageDialog(null,"Data Berhasil diubah!");
+                reset();
+                loadTable();
+            }catch(SQLException se){
+                JOptionPane.showMessageDialog(null,"Data gagal diubah!"
+                    + "\nTerjadi error dengan pesan : " + se.getMessage());
+            }
+        } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null,"Data gagal diubah!"
-                + "\nTerjadi error dengan pesan : " + se.getMessage());
+                    + "\nTerjadi error dengan pesan : " + ex.getMessage());
         }
     }
     
@@ -488,45 +487,83 @@ public class FormTabelUtama extends javax.swing.JFrame {
             String numb1 =  Integer.toString(no1);
             String numb2 =   Integer.toString(no2);
             String numbtemp =  Integer.toString(no_temp);
-            String sqlUpdate1= "update mahasiswa set no = ? where no = '" 
-                    + no1+"'";
-//            String sqlUpdate2= "update mahasiswa set no = ? where no = '" 
-//                    + no2+"'";
-//            String sqlUpdate3= "update mahasiswa set no = ? where no = '" 
-//                    + no_temp+"'";
+            String sqlUpdate1= "update QueryList set no = ? where no = '" + no1+"'";
+            String sqlUpdate2= "update QueryList set no = ? where no = '" + no2+"'";
+            String sqlUpdate3= "update QueryList set no = ? where no = '" + no_temp+"'";
             
             System.out.println(sqlUpdate1);
-//                        System.out.println(sqlUpdate2);
-//                                    System.out.println(sqlUpdate3);
+            System.out.println(sqlUpdate2);
+            System.out.println(sqlUpdate3);
+            
             java.sql.PreparedStatement stmt = null;
-//            java.sql.PreparedStatement stmt2 = null;
-//            java.sql.PreparedStatement stmt3 = null;
+            java.sql.PreparedStatement stmt2 = null;
+            java.sql.PreparedStatement stmt3 = null;
             try {
                 stmt = koneksi.prepareStatement(sqlUpdate1);
-//                stmt2 = koneksi.prepareStatement(sqlUpdate2);
-//                stmt3 = koneksi.prepareStatement(sqlUpdate3);
+                stmt2 = koneksi.prepareStatement(sqlUpdate2);
+                stmt3 = koneksi.prepareStatement(sqlUpdate3);
+                try{
+                    stmt2.setString(1, numbtemp);
+                    stmt2.executeUpdate();
+                    stmt.setString(1, numb2);
+                    stmt.executeUpdate();
+                    stmt3.setString(1, numb1);
+                    stmt3.executeUpdate();
+                    QueryNumb.setText(numb2);
+                    loadTable();
+                }catch(SQLException se){
+                    JOptionPane.showMessageDialog(null,"Data gagal diubah!"
+                        + "\nTerjadi error dengan pesan : " + se.getMessage());
+                }
             } catch (SQLException ex) {
-            }
-
-            try{
-//                stmt2.setString(1, no_temp);
-//                stmt2.executeUpdate();
-                stmt.setString(1, numbtemp);
-                stmt.executeUpdate();
-//                stmt3.setString(1, no1);
-//                stmt3.executeUpdate();
-    //            JOptionPane.showMessageDialog(null,"Data Berhasil diubah!");
-    //            reset();
-                loadTable();
-            }catch(SQLException se){
                 JOptionPane.showMessageDialog(null,"Data gagal diubah!"
-                    + "\nTerjadi error dengan pesan : " + se.getMessage());
+                        + "\nTerjadi error dengan pesan : " + ex.getMessage());
             }
         }
     }
     
     public void downData(){
-        
+        int no_temp = 1000000;
+        int no1 = 0;
+        no1 = Integer.parseInt(QueryNumb.getText());
+        if (no1>1){
+            int no2 = no1+1;
+            String numb1 =  Integer.toString(no1);
+            String numb2 =   Integer.toString(no2);
+            String numbtemp =  Integer.toString(no_temp);
+            String sqlUpdate1= "update QueryList set no = ? where no = '" + no1+"'";
+            String sqlUpdate2= "update QueryList set no = ? where no = '" + no2+"'";
+            String sqlUpdate3= "update QueryList set no = ? where no = '" + no_temp+"'";
+            
+            System.out.println(sqlUpdate1);
+            System.out.println(sqlUpdate2);
+            System.out.println(sqlUpdate3);
+            
+            java.sql.PreparedStatement stmt = null;
+            java.sql.PreparedStatement stmt2 = null;
+            java.sql.PreparedStatement stmt3 = null;
+            try {
+                stmt = koneksi.prepareStatement(sqlUpdate1);
+                stmt2 = koneksi.prepareStatement(sqlUpdate2);
+                stmt3 = koneksi.prepareStatement(sqlUpdate3);
+                try{
+                    stmt2.setString(1, numbtemp);
+                    stmt2.executeUpdate();
+                    stmt.setString(1, numb2);
+                    stmt.executeUpdate();
+                    stmt3.setString(1, numb1);
+                    stmt3.executeUpdate();
+                    QueryNumb.setText(numb2);
+                    loadTable();
+                }catch(SQLException se){
+                    JOptionPane.showMessageDialog(null,"Data gagal diubah!"
+                        + "\nTerjadi error dengan pesan : " + se.getMessage());
+                }
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null,"Data gagal diubah!"
+                        + "\nTerjadi error dengan pesan : " + ex.getMessage());
+            }
+        }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
