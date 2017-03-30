@@ -21,27 +21,16 @@ public class ConSqlite {
     }
 
     public Connection Connect() {
-//        Connection c = null;
-//        try {
-//          Class.forName("org.sqlite.JDBC");
-//          c = DriverManager.getConnection("jdbc:sqlite:c:/sqlite/koneksi.db");
-//        } catch ( Exception e ) {
-//          System.err.println( e.getClass().getName() + ": " + e.getMessage() );
-//          System.exit(0);
-//        }
-//        System.out.println("Opened database successfully");
-
         try {
             Class.forName("org.sqlite.JDBC");
             JOptionPane.showMessageDialog(null, "berhasil load driver");
         } catch (ClassNotFoundException ex) {
             JOptionPane.showMessageDialog(null, "Tidak ada Driver!\n" + ex);
         }
-
-        //untuk koneksi ke database
         try {
-            //String url="jdbc:sqlite:db/litedb.om4gus";
-            String url = "jdbc:sqlite:c:/sqlite/koneksi.db";
+//            String url = "jdbc:sqlite:G:/datofa_project/project/syndata/src/db/koneksi.db";
+//            String dir =  System.getProperty("user.dir");
+            String url = "jdbc:sqlite:C:/koneksi.db";
             koneksi = DriverManager.getConnection(url);
             System.out.println("Berhasil koneksi");
         } catch (SQLException se) {
