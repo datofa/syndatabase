@@ -5,11 +5,18 @@
  */
 package Conn;
 
+import app.FormTabelUtama;
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import oracle.jdbc.OracleCallableStatement;
+import oracle.jdbc.OracleTypes;
+import java.lang.String;
 
 /**
  *
@@ -22,11 +29,11 @@ public class ConOracle {
     private static String jdbc = "jdbc:oracle:thin:";  
     private static String host = "@localhost:";  
     private static String port = "1521:";  
-    private static String SID = "xe";   
+    private static String SID = "SIMPEG";   
     private static String database = "SIMPEG";   
     private static String url = jdbc + host + port + SID;  
-    private static String username = "coba";   
-    private static String password = "coba"; 
+    private static String username = "simpeg";   
+    private static String password = "simpeg"; 
     public void ConOracle(){
         
     }
@@ -51,14 +58,39 @@ public class ConOracle {
            return connect;  
     }
     
-    public ResultSet GetData(){
-        String sql = "create table ikan(nama varchar2(20));";
+    public boolean Query(String sql) throws SQLException{
+        boolean data = false;
+        Statement stat = connect.prepareCall(sql);
         try{
-            Statement stat = connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
-            return stat.executeQuery(sql);
-        }catch(SQLException e){
-            e.printStackTrace();
-            return null;
+            stat.execute(sql);
+            return true;
+        } catch (SQLException ex) {
+            ex.printStackTrace();
         }
+        return false;
+       
     }
+    
+//    public void set_host(String host){
+//        this.host = host;
+//    }
+//    
+//    public void set_port(String port){
+//        this.port = port;
+//    }
+//    
+//    public void set_user(String user){
+//       this.username = user; 
+//    }
+//    
+//    public void set_password(String password){
+//        this.password = password;
+//    }
+//    
+//    public void set_sid(String sid){
+//        this.SID = sid;
+//    }
+    
+ 
 }
+
